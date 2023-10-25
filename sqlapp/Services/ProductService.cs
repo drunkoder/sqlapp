@@ -3,22 +3,17 @@ using System.Data.SqlClient;
 
 namespace sqlapp.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-        const string _dbSource = "azdb002.database.windows.net";
-        const string _dbUser = "sqladmin";
-        const string _dbPassword = "v@ReRfSeVL8qq4Q";
-        const string _dbName = "app-db";
+        private readonly IConfiguration _configuration;
 
+        public ProductService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         private SqlConnection GetConnection()
         {
-            var sb = new SqlConnectionStringBuilder();
-            sb.DataSource = _dbSource;
-            sb.UserID = _dbUser;
-            sb.Password = _dbPassword;
-            sb.InitialCatalog = _dbName;
-
-            return new SqlConnection(sb.ConnectionString);
+            return new SqlConnection(_configuration.GetConnectionString("Default"));
         }
 
         public List<Product> GetProducts()
@@ -26,7 +21,7 @@ namespace sqlapp.Services
             var products = new List<Product>();
 
             var sql = "SELECT ProductID, ProductName, Quantity FROM Products";
-            using(var conn = GetConnection())
+            using (var conn = GetConnection())
             {
                 conn.Open();
                 var command = conn.CreateCommand();
