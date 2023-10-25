@@ -5,10 +5,10 @@ namespace sqlapp.Services
 {
     public class ProductService
     {
-        const string _dbSource = "azdb002.database.windows.net";
-        const string _dbUser = "sqladmin";
-        const string _dbPassword = "v@ReRfSeVL8qq4Q";
-        const string _dbName = "app-db";
+        const string _dbSource = "";
+        const string _dbUser = "";
+        const string _dbPassword = "";
+        const string _dbName = "";
 
         private SqlConnection GetConnection()
         {
